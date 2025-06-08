@@ -1,0 +1,59 @@
+{% extends 'student/base_for_students.html' %}
+{% block content %}
+{% load static %}
+    <div class="mb-4">
+        <h3>Фильтрация</h3>
+        <form action="{% url 'test_for_students' %}" method="POST">
+            {% csrf_token %}
+            <input type="date" name="date", value="" placeholder="Дата" class="mb-2 form-control" id="date">
+            <select name="subject" id="" class="form-select mb-2">
+                <option value="" selected disabled>Выберите предмет</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.title }}</option>
+                {% endfor %}
+            </select> 
+            <input type="submit" value="Показать" class="btn_1" style="width:90px">
+        </form>
+        {% if masseges %}
+            {% for massege in masseges %}
+            <div class="alert-danger">{{ message }}</div>
+            {% endfor %} 
+        {% endif %}
+    </div>
+    <div class="row">
+          {% for test in tests %}
+          <div class="col-lg-4 col-md-6 col-12 p-2">
+            <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Тест</h5>
+                        <p class="card-text">{{ test.group }} - {{ test.teacher }}</p>
+                        <div class="card-text">Выполните тест по {{ test.subject }}</div>
+                        <div><small>{{ test.date }}</small></div>
+                        <div style="text-align: right"><a href="{{ test.link }}" class="btn btn-outline-primary">Решить</a></div>
+                    </div>
+                </div>
+          </div>
+            {% empty %}
+            <p class="text-danger">Нет записей!!</p>    
+        {% endfor %}
+        
+    </div>
+  
+
+    <div class="pagination">
+        {% if tests.has_previous %}
+            <div><a href="?page={{ tests.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in tests.paginator.page_range %}
+            {% if tests.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if tests.has_next %}
+            <div><a href="?page={{ tests.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+    <script src="{% static 'js/value_date_input.js' %}"></script>
+{% endblock %}

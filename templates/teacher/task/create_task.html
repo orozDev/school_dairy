@@ -1,0 +1,17 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+    <style>
+        select, input, textarea{
+        display: block;
+        width: 100% !important;
+        }
+    </style>
+    <h4 class="mb-4">Форма для добавления домашнего задания</h4>
+    <div>
+        <form action="{% url 'create_homework' %}" method="POST" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div><input type="submit" class="btn btn-success" value="Добавить"></div>
+        </form>
+    </div>
+{% endblock content %}

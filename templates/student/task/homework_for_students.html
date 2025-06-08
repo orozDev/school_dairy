@@ -1,0 +1,60 @@
+{% extends 'student/base_for_students.html' %}
+{% load static %}
+{% block content %}
+    <div class="mb-4">
+        <form action="{% url 'homework_for_students' %}" method="POST">
+            {% csrf_token %}
+            <input type="date" name="date", value="" placeholder="Дата" class="mb-2 form-control" id="date">
+            <select name="subject" id="" class="form-select mb-2">
+                <option value="" selected disabled>Выберите предмет</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.title }}</option>
+                {% endfor %}
+            </select> 
+            <input type="submit" value="Показать" class="btn_1" style="width:90px">
+        </form>
+        {% if masseges %}
+            {% for massege in masseges %}
+              <div class="alert-danger">{{ message }}</div>
+            {% endfor %} 
+        {% endif %}
+    </div>
+    <div class="row">
+          {% for task in tasks %}
+          <div class="col-lg-4 col-md-6 col-12 p-2">
+            <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Домашняя задания</h5>
+                        <div>{{ task.subject }} - {{ task.types }}</div>
+                        <div class="card-text">{{ task.group }} - {{ task.teacher }}</div>
+                        <div class="card-text">{{ task.about }}</div>
+                        {% if task.link != "" %}
+                          <p><b>Ссылка:</b> <a href="{{ task.link }}">{{ task.link }}</a></p>
+                        {% endif %}
+                        
+                        <div style="text-align: right;"><small>{{ task.date }}</small></div>
+                    </div>
+            </div>
+        </div> 
+        {% empty %}
+        <p class="text-danger">Нет записей!!</p>
+        {% endfor %}
+    </div>
+  
+       <div class="pagination">
+        {% if tasks.has_previous %}
+            <div><a href="?page={{ tasks.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in tasks.paginator.page_range %}
+            {% if tasks.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if tasks.has_next %}
+            <div><a href="?page={{ tasks.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+    <script src="{% static 'js/value_date_input.js' %}"></script>
+{% endblock %}

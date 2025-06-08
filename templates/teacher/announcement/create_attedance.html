@@ -1,0 +1,8 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+<h4>Выберите предмет:</h4>
+{% for subject in subjects %}
+  <p><a href="{% url 'create_attedance_with_subject' subject_id=subject.id %}" class="btn btn-outline-primary d-block mb-3">{{ subject.title }}</a></p>
+{% endfor %}
+  
+{% endblock content %}

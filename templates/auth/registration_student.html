@@ -1,0 +1,42 @@
+{% extends 'auth/base_for_registretion.html' %}
+{% block content %}
+  <h4 class="mb-4">Форма для регистрации Студента</h4>
+  <p id="preview"></p>
+  {% if messages %}
+  {% for message in messages %}
+      <p class="errors">{{ message }}</p>
+  {% endfor %}
+  {% endif %}
+  <form action="{% url 'registration_student' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>{{ form.name }}</p>
+      <p>{{ form.username }}</p>
+      <p>{{ form.portret }}</p>
+      <p>{{ form.password1 }}</p>
+      <p>{{ form.password2 }}</p>
+      <p>
+          <select name="group" id="" class="form-select" required>
+            <option value="" selected disabled>Выберите класс</option>
+            {% for group in groups %}
+              <option value="{{ group.id }}">{{ group.title }}</option>
+            {% endfor %}
+          </select>
+      </p>
+      <p><input type="number" placeholder="Секретный ключ для подтверждения" class="form-control" name="key" required></p>
+      <p><input type="submit" class="btn btn-success" value="Зарегистрироваться"></p>
+  </form>
+
+
+  <script>
+       function getImagePreview(event)
+        {
+            var image=URL.createObjectURL(event.target.files[0]);
+            var imagediv= document.getElementById('preview');
+            var newimg=document.createElement('img');
+            imagediv.innerHTML='';
+            newimg.src=image;
+            newimg.width="300";
+            imagediv.appendChild(newimg);
+        }
+  </script>
+{% endblock content %}

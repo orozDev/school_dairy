@@ -1,0 +1,21 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+    <style>
+        select, input, textarea{
+        display: block;
+        width: 100% !important;
+        }
+    </style>
+    <h4 class="mb-4">Форма для добавления теста</h4>
+    <div>
+        
+        <form action="{% url 'create_test' %}" method="POST">
+            {% csrf_token %}
+            <p>{{ form.group }}</p>
+            <p>{{ form.subject }}</p>
+            <p>{{ form.link }}</p>
+            <p>{{ form.about }}</p>
+            <div><input type="submit" class="btn btn-success" value="Добавить"></div>
+        </form>
+    </div>
+{% endblock content %}

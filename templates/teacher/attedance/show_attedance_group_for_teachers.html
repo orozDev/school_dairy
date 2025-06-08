@@ -1,0 +1,68 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% load static %}
+{% block content %}
+  {% if messages  %}
+    {% for message in messages %}
+      <div class="alert alert-primary">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  <form action="{% url 'filter_attedance_for_teachers' group_id=group.id %}" method="POST" class="mb-4">
+      {% csrf_token %}
+      <h5>Фильтрация</h5>
+      <div class="text-center text-sm-start w-100">
+          <input type="date" name="date" class="mb-3 form-control" id="date">
+          <select name="subject" id="" class="mb-3 form-select" class="mb-3 mb-md-0">
+              <option value="" selected disabled>Выберите предмет</option>
+              {% for subject in teacher.subject.all %}
+                <option value="{{ subject.id }}">{{ subject.title }}</option>
+              {% endfor %}
+          </select>
+          <input type="submit" class="btn btn-primary" value="Показать">
+    </div>
+  </form>
+  <h3>{{ group.title }}</h3>
+  <div class="table-overflow">
+    <table class="table table-bordered border-blue">
+    <tr class="bg-blue text-white">
+      <td class="text-center"><b>Дата</b></td>
+      <td class="text-center"><b>Ученик(ца)</b></td>
+      <td class="text-center"><b>Предмет</b></td>
+      <td class="text-center"><b>Отметка</b></td>
+    </tr>
+    {% for attedance in attedances %}
+      <tr>
+        <td>{{ attedance.date }}</td>
+        <td>{{ attedance.student.user.name }}</td>
+        <td>{{ attedance.subject }}</td>
+        <td>
+          {% if attedance.attedance_date is True  %}
+              <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+          {% elif attedance.attedance_date is False  %}
+              <i class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">Нет записей!!</td></tr>
+    {% endfor %}
+  </table>
+  </div>
+  
+  <div class="pagination">
+      {% if attedances.has_previous %}
+          <div><a href="?page={{ attedances.previous_page_number }}">&laquo;</a></div>
+      {% endif %}
+      {% for i in attedances.paginator.page_range %}
+          {% if attedances.number == i %}
+              <div><span class="active">{{ i }}</span></div>
+          {% else %}
+              <div><a href="?page={{ i }}">{{ i }}</a></div>
+          {% endif %}
+      {% endfor %}
+      {% if attedances.has_next %}
+          <div><a href="?page={{ attedances.next_page_number }}">&raquo;</a></div>
+      {% endif %}
+  </div>
+  <div class="panel"><a href="{% url 'create_attedance' group_id=group.id %}" class="update_or_create_button">Отметить <i class="fa fa-plus-circle" aria-hidden="true"></i></a></div>
+  <script src="{% static 'js/value_date_input.js' %}"></script>
+  {% endblock content %}

@@ -1,0 +1,6 @@
+{% extends "auth/base_for_registretion.html" %}
+{% block content %}
+  <h3>Выберите должность:</h3>
+    <p><a href="{% url 'registration_student' %}" class="btn btn-outline-primary d-block" >Студент</a></p>
+    <p><a href="{% url 'registration_teacher' %}" class="btn btn-outline-primary d-block" >Преподаватель(ница)</a></p>
+{% endblock content %}

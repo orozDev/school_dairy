@@ -1,0 +1,79 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+{% load static %}
+<style>
+    .ca{
+        width: 50px;
+        overflow: hidden;
+    }
+</style>
+
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="mb-4">
+        <form action="{% url 'mark_for_teachers' %}" method="POST">
+            <h5>Фильтрация</h5>
+            {% csrf_token %}
+            <input type="date" name="date" class="mb-3 form-control" id="date">
+            <select name="subject" id="" class="mb-3 form-select" >
+                <option value="" disabled selected>Выберите предмет</option>
+                {% for subject in teacher.subject.all %}
+                <option value="{{ subject.id }}">{{ subject.title }}</option>
+                {% endfor %}
+            </select>
+            <select name="group" id="" class="mb-3 form-select" required>
+                <option value="" disabled selected>Выберите класс</option>
+                {% for group in teacher.group.all %}
+                <option value="{{ group.id }}">{{ group.title }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Показать" class="btn btn-primary">
+        </form>
+    </div>
+
+    <div class="table-overflow">
+        <table class="table table-bordered border-blue">
+        <tr>
+            <td class="text-center bg-blue text-white"><b>Дата</b></td>
+            <td class="text-center bg-blue text-white"><b>ФИО</b></td>
+            <td class="text-center bg-blue text-white"><b>Класс</b></td>
+            <td class="text-center bg-blue text-white"><b>Предмет</b></td>
+            <td class="text-center bg-blue text-white"><b>Оценка</b></td>
+        </tr>
+        {% for mark in marks %}
+            <tr>
+                <td>{{ mark.date }}</td>
+                <td>{{ mark.student.user.name }}</td>
+                <td>{{ mark.group.title }}</td>
+                <td>{{ mark.subject }}</td>
+                <td>{{ mark.mark }}</td>
+            </tr>
+        {% empty %}
+        <tr><td colspan="4">Нет записей!</td></tr>
+        {% endfor %}
+    </table> 
+    </div>
+   
+      
+    <div class="pagination">
+        {% if marks.has_previous %}
+            <div><a href="?page={{ marks.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in marks.paginator.page_range %}
+            {% if marks.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if marks.has_next %}
+            <div><a href="?page={{ marks.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+
+    <div class="panel"><a href="{% url 'create_mark_group' %}" class="update_or_create_button">Отметить <i class="fa fa-plus"></i></a></div>
+    <script src="{% static 'js/value_date_input.js' %}"></script>
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends 'auth/base_for_registretion.html' %}
+{% block content %}
+  <h4 class="mb-4">Форма для регистрации преподавателя</h4>
+  <p id="preview"></p>
+  {% if messages %}
+  {% for message in messages %}
+      <p class="errors">{{ message }}</p>
+  {% endfor %}
+  {% endif %}
+  <form action="{% url 'registration_teacher' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>{{ form.name }}</p>
+      <p>{{ form.username }}</p>
+      <p>{{ form.portret }}</p>
+      <p>{{ form.password1 }}</p>
+      <p>{{ form.password2 }}</p>
+        
+      <p><input type="number" placeholder="Секретный ключ для подтверждения" class="form-control" name="key" required></p>
+      <div class="text-center text-warning"><i class="fa fa-info-circle"></i> Зажмите кнопку CTRL и выбирайте</div>
+      <div class="row mb-4">
+          <div class="col-6">
+              <p>Классы которые обучаете</p>
+              <div>{{ form2.group }}</div>
+          </div>
+          <div class="col-6">
+            <p>Предметы которые преподаете</p>
+            <div>{{ form2.subject }}</div>
+          </div>
+      </div>
+      <p><input type="submit" class="btn btn-success" value="Зарегистрироваться"></p>
+  </form>
+
+
+  <script>
+       function getImagePreview(event)
+        {
+            var image=URL.createObjectURL(event.target.files[0]);
+            var imagediv= document.getElementById('preview');
+            var newimg=document.createElement('img');
+            imagediv.innerHTML='';
+            newimg.src=image;
+            newimg.width="300";
+            imagediv.appendChild(newimg);
+        }
+  </script>
+{% endblock content %}

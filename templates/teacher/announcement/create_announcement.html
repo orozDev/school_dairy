@@ -1,0 +1,20 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+
+<style>
+    select, input, textarea{
+    display: block;
+    width: 100% !important;
+    }
+</style>
+
+    <div>
+        <h4>Добавление объявления</h4>
+        <form action="{% url 'create_announcement' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+         
+            <div><input type="submit" class="btn btn-success" value="Добавить"></div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,56 @@
+.btn{
+    background-color: brown;
+    color: #FFF;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    transition: .3s;
+    border: 1px solid transparent;
+}
+.btn:hover{
+    color: brown !important;
+    background-color: transparent;
+    border: 1px solid brown;
+    text-decoration: none !important;
+
+}
+.modl{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(32,33,36, 0.7);
+    padding: 40px 20px;
+    display: none;
+    z-index: 1042;
+  }
+  .inmodl{
+    width: 500px;
+    background: #555;
+    height: 150px;
+    padding: 20px 20px;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px 0px #333;
+  }
+  .inmodl .btn-info{
+    position: absolute;
+    right: 110px;
+    bottom: 20px;
+  }
+  .inmodl .btn-danger{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+  }
+  #xclose:focus{
+    outline: none;
+  }
+  #xclose{
+    color: #fff;
+  }
+.portret{
+    object-fit: cover;
+    object-position: center;
+    width: 4rem;
+    height: 4rem;
+}

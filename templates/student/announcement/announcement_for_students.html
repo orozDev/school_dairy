@@ -1,0 +1,35 @@
+{% extends 'student/base_for_students.html' %}
+{% block content %}
+{% for announcement in announcements %}
+<div class="alert alert-primary">
+
+    <div class="card-body">
+        <h5 class="card-title">{{ announcement.theme }}</h5>
+        <p class="card-text">{{ announcement.about }}</p>
+        {% if announcement.link != "" %}
+          <div class="text-end"><a class="btn btn-outline-primary" href="{{ announcement.link }}">Перейти</a></div>
+        {% endif %}
+        <p class="text-end"><small>{{announcement.teacher.user.name}}  -  {{ announcement.date }}</small></p>
+      </div>
+  </div>
+
+    {% empty %}
+    <div class="alert alert-danger">Нет записей!!</div>
+{% endfor %}
+
+    <div class="pagination">
+        {% if announcements.has_previous %}
+            <div><a href="?page={{ announcements.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in announcements.paginator.page_range %}
+            {% if announcements.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if announcements.has_next %}
+            <div><a href="?page={{ announcements.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+{% endblock %}

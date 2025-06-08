@@ -1,0 +1,37 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+    <h3 id="e_year" class="text-center"></h3>
+    <div class="table-overflow">
+        <table class="table table-bordered border-blue">
+        {% for day1 in day_of_week %}
+            <tr class="bg-blue text-white">
+                <td class="text-center" colspan="5"><b>{{ day1.day }}</b></td>
+            </tr>
+            {% for  schedule in  schedules %}
+                {% if schedule.day.day == day1.day  %}
+                    <tr>
+                        <td><b>{{ schedule.hour }}</b></td>
+                        <td>{{ schedule.subject }}</td>
+                        <td>{{ schedule.group }}</td>
+                        <td>{{ schedule.types }}</td>
+                        <td><a href="{% url 'delete_schedule' schedule_id=schedule.id %} " class="btn btn-danger mb-2 mb-md-0">Удалить</a></td>
+                    </tr>
+                {% endif %}
+                
+            {% endfor %}
+            {% empty %}
+                <tr><td colspan="2">Нет записей!</td></tr>
+        {% endfor %}
+        </table>
+    </div>
+
+<div class="panel"><a href="{% url 'create_schedule' %}"><button class="update_or_create_button">Добавить <i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></div>
+
+{% endblock content %}

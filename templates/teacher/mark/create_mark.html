@@ -1,0 +1,41 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-danger">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+<form action="{% url 'create_mark' subject_id=subject.id %}" method="POST">
+    {% csrf_token %}
+    <h4>{{ subject.title }} <input type="hidden" name="subject" value="{{ subject.id }}">  {{ date }} <input type="hidden" name="date" value="{{ date }}"></h4>
+    <h4>{{ group.title }} <input type="hidden" value="{{ group.id }}" name="group"></h4>
+    <div class="mb-4"><input type="submit" value="Сохранить" class="btn btn-outline-warning"> - сохранение не подлежит к изменению</div>
+    <div class="table-overflow">
+      <table class="total_mark_chart">
+        <tr class="bg-blue text-white">
+          <td class="text-center"><b>Ученик(ца)</b></td>
+          <td class="text-center"><b>Оценка</b></td>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>
+                <input type="hidden" name="student_{{ student.id }}" value="{{ student.id }}">
+                <label class="d-block" for="mark_{{ student.id }}">{{ student.user.name }}</label></td>
+            <td class="text-right">
+
+                <label for="mark_{{ student.id }}" class="d-block">
+                    <input type="number" name="mark_{{ student.id }}"
+                       id="mark_{{ student.id }}">
+                </label>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
+    
+   
+</form>
+
+{% endblock content %}

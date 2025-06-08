@@ -1,0 +1,45 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+<form action="{% url 'create_attedance_2' %}" method="POST">
+    {% csrf_token %}
+    <h4>{{ subject.title }} <input type="hidden" name="subject" value="{{ subject.id }}">  {{ date }} <input type="hidden" name="date" value="{{ date }}"></h4>
+    <h4>{{ students.0.group.title }} <input type="hidden" value="{{ students.0.group.id }}" name="group"></h4>
+    <div class="mb-4"><input type="submit" value="Сохранить" class="btn btn-outline-warning"> - сохранение не подлежит к изменению</div>
+    <div class="table-overflow">
+       <table class="table table-bordered border-blue">
+        <tr class="bg-blue text-white">
+          <td class="text-center"><b>Ученик(ца)</b></td>
+          <td class="text-center"><b>Отметка</b></td>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>
+                <input type="hidden" name="student_name_{{ student.id }}" value="{{ student.id }}">
+                <label class="d-block" for="chb_{{ student.id }}">{{ student.user.name }}</label></td>
+            <td class="text-right">
+
+                <label for="chb_{{ student.id }}" class="d-block">
+                    <input type="checkbox" class="checkbox" name="attedace_date_{{ student.id }}"
+                       id="chb_{{ student.id }}" value="0">
+                </label>
+            </td>
+        </tr>
+    {% endfor %}
+    </table> 
+    </div>
+    
+   
+</form>
+    <script>
+        let cb = document.getElementsByClassName('checkbox');
+        for (let i = 0; cb.length; i++) {
+            cb[i].onclick = function () {
+                if (cb[i].value === "0") {
+                    cb[i].value = "1";
+                } else {
+                    cb[i].value = "0";
+                }
+            }
+        }
+    </script>
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_login.css' %}">
+    <title>Авторизация</title>
+</head>
+<body>
+<div class="container_css">
+    <div class="box">
+        <h3 class="text-center">ВХОД В СИСТЕМУ</h3>
+        <form action="{% url 'login_profile' %}" method="post" novalidate>
+            {% csrf_token %}
+            <div class="text-center">{{ form_login.username }}</div>
+            <div class="text-danger text-center">
+                {% for error in form_login.username.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div class="text-center">{{ form_login.password }}</div>
+            <div class="text-danger text-center">
+                {% for error in form_login.password.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-3 text-center text-warning"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            <div class="text-center"><input type="submit" class="btn btn-login" value="Войти"></div>
+        </form>
+        <hr>
+        <p class="d-flex justify-content-around"><a href="" style="text-decoration: none;"><i class="fa fa-info-circle"></i> Политика и конфиденциальность</a>  <a href="{% url 'list_status' %}" style="text-decoration: none;"><i class="fa fa-circle" aria-hidden="true"></i> Регистрация</a></p>
+    </div>
+</div>
+</body>
+</html>

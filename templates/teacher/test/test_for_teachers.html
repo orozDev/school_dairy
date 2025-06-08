@@ -1,0 +1,65 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% load static %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="mb-4">
+        <form action="{% url 'test_for_teachers' %}" method="POST">
+            <h5>Фильтрация</h5>
+            {% csrf_token %}
+            <input type="date" name="date" class="mb-3 form-control" id="date">
+            <select name="subject" id="" class="mb-3 form-select">
+                <option value="" disabled selected  class="form-select">Выберите предмет</option>
+                {% for subject in teacher.subject.all %}
+                <option value="{{ subject.id }}">{{ subject.title }}</option>
+                {% endfor %}
+            </select>
+            <select name="group" id="" class="mb-3 form-select" required >
+                <option value="" disabled selected>Выберите класс</option>
+                {% for group in teacher.group.all %}
+                <option value="{{ group.id }}">{{ group.title }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Показать" class="btn btn-primary">
+        </form>
+    </div>
+
+    <div class="row mx-0">
+        {% for test in tests %}
+        <div class="col-lg-4 col-md-6 col-12 p-2">
+          <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Тест</h5>
+                      <p class="card-text">{{ test.group }} - {{ test.teacher }}</p>
+                      <p class="card-text">Выполните тест по {{ test.subject }}. {{ test.about }}</>
+                      <div class="mb-2"><small>{{ test.date }}</small></div>
+                      <div style="text-align: right"><a href="{% url 'update_test' test_id=test.id %}" class="btn btn-warning">Изменить</a> <a href="{% url 'delete_test' test_id=test.id %}" class="btn btn-danger">Удалить</a> <a href="{{ test.link }}" class="btn btn-outline-primary">Решить</a></div>
+                  </div>
+              </div>
+        </div>
+          {% empty %}
+          <p class="text-danger">Нет записей!!</p>    
+      {% endfor %}
+    </div>
+      <div class="pagination">
+        {% if tests.has_previous %}
+            <div><a href="?page={{ tests.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in tests.paginator.page_range %}
+            {% if tests.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if tests.has_next %}
+            <div><a href="?page={{ tests.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+
+    <div class="panel"><a href="{% url 'create_test' %}" class="update_or_create_button">Добавить <i class="fa fa-plus"></i></a></div>
+    <script src="{% static 'js/value_date_input.js' %}"></script>
+{% endblock content %}

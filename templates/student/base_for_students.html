@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="kg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_for_students.css' %}">
+    <title class="text-uppercase">C.О.П. "АУБПФ"</title>
+</head>
+<body>
+    <nav class=" fixed-top hidden_nav">
+        <div class="d-flex justify-content-between">
+            <div><button id="btn"><i class="fa fa-bars" aria-hidden="true"></i></button></div>
+            <div class="logo_nav">
+                <span><span>C.О.П. "АУБПФ"</span></span>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar">
+        <div class="sidebar-size">
+            <div class="menu fixed-right" id="bars">
+                <div class="user">
+                    <div class="portret"><img src="{{ user.avatar.url }}" class="portret_size rounded-circle" alt=""></div>
+                    <div class="username">{{ user.username }}</div>
+                </div>
+                <div class="logo">
+                    <span>C.О.П. "АУБПФ"</span>
+                </div>
+                <ul class="menu_ul">
+                    <li><a href="{% url 'user_profile' %}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Профиль</a></li>
+                    <li><a href="{% url 'schedule_for_students' %}"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Расписание</a></li>
+                    <li><a href="{% url 'attedance_of_student' %}"><i class="fa fa-table" aria-hidden="true"></i> Посещаемость</a></li>
+                    <li><a href="{% url 'test_for_students' %}"><i class="fa fa-line-chart" aria-hidden="true"></i> Тест</a></li>
+                    <li><a href="{% url 'homework_for_students' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Домашнее задание</a></li>
+                    <li><a href="{% url 'mark_for_students' %}"><i class="fa fa-star" aria-hidden="true"></i> Оценка</a></li>
+                    <li><a href="{% url 'announcement_for_students' %}"><i class="fa fa-bullhorn" aria-hidden="true"></i> Объявления</a></li>
+                    <li><a href="{% url 'logout_profile' %}"<i class="fa fa-sign-out" aria-hidden="true"></i> Выход</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            {% block content %}
+    
+            {% endblock %}
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>    
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/script_year.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% load static %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="mb-4">
+        <form action="{% url 'announcement_for_teachers' %}" method="POST" >
+            <h5>Фильтрация</h5>
+            {% csrf_token %}
+            <input type="date" name="date" class="mb-3 form-control" value="" id="date">
+            <select name="teacher" id="" class="mb-3 form-select">
+                <option value="" disabled selected>Выберите преподавателя</option>
+                {% for teacher in teachers %}
+                <option value="{{ teacher.id }}">{{ teacher.user.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Показать" class="btn btn-primary">
+        </form>
+    </div>
+
+
+{% for announcement in announcements %}
+    <div class="alert alert-primary">
+   
+        <div class="card-body">
+          <h5 class="card-title">{{ announcement.theme }}</h5>
+          <p class="card-text">{{ announcement.about }}</p>
+          {% if announcement.link != "" %}
+          <div class="text-end"><a class="btn btn-outline-primary" href="{{ announcement.link }}">Перейти</a></div>
+          {% endif %}
+          <p class="text-end"><small>{{announcement.teacher.user.name}}  -  {{ announcement.date }}</small></p>
+          {% if announcement.teacher.user == user %}
+            <div><a href="{% url 'delete_announcement' ann_id=announcement.id %}" class="btn btn-danger">Удалить</a> <a href="{% url 'update_announcement' ann_id=announcement.id %}" class="btn btn-warning">Изменить</a></div>
+          {% endif %}
+        </div>
+      </div>
+    
+        {% empty %}
+        <div class="alert alert-danger">Нет записей!!</div>
+{% endfor %}
+
+    <div class="pagination">
+        {% if announcements.has_previous %}
+            <div><a href="?page={{ announcements.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in announcements.paginator.page_range %}
+            {% if announcements.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if announcements.has_next %}
+            <div><a href="?page={{ announcements.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+    <div class="panel"><a href="{% url 'create_announcement' %}" class="update_or_create_button">Добавить <i class="fa fa-plus"></i></a></div>
+    <script src="{% static 'js/value_date_input.js' %}"></script>
+    {% endblock content %}

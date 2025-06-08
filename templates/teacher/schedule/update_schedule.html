@@ -1,0 +1,64 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+<form action="{% url 'update_schedule' schedule_id=schedule.id %}" method="POST">
+    {% csrf_token %}
+    <p>
+        <select name="subject" id="" required class="form-select">
+            <option value="">Выберите предмет</option>
+            {% for subject in teacher.subject.all %}
+                {% if schedule.subject.id == subject.id %}
+                <option value="{{ subject.id }}" selected>{{ subject.title }}</option>
+                {% else %}
+                <option value="{{ subject.id }}">{{ subject.title }}</option>
+                {% endif %} 
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <select name="group" id="" required class="form-select">
+            <option value="">Выберите класс</option>
+            {% for group in teacher.group.all %}
+                {% if schedule.group.id == group.id %}
+                <option value="{{ group.id }}" selected>{{ group.title }}</option>
+                {% else %}
+                <option value="{{ group.id }}">{{ group.title }}</option>
+                {% endif %} 
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <select name="types" id="" required class="form-select">
+            <option value="">Выберите тип</option>
+            {% for type in types %}
+                {% if schedule.types.id == type.id %}
+                <option value="{{ type.id }}" selected>{{ type.title }}</option>
+                {% else %}
+                <option value="{{ type.id }}">{{ type.title }}</option>
+                {% endif %} 
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <select name="day" id="" required class="form-select">
+            <option value="">Выберите день</option>
+            {% for day in days %}
+                {% if schedule.day.id == day.id %}
+                <option value="{{ day.id }}" selected>{{ day.day }}</option>
+                {% else %}
+                <option value="{{ day.id }}">{{ day.day }}</option>
+                {% endif %} 
+              
+            {% endfor %}
+        </select>
+    </p>
+    <p><input type="number" name="hour" required value="{{ schedule.hour }}" placeholder="Время" class="form-control"></p>
+    <div class="text-end text-md-start"><input type="submit" value="Изменить" class="btn btn-outline-success"></div>
+</form>
+{% endblock content %}

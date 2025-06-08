@@ -1,0 +1,7 @@
+.DS_Store
+media/
+static/static_root/
+venv
+.vs_code
+.idea
+db.sqlite3

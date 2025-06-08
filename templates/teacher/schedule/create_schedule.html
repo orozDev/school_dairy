@@ -1,0 +1,22 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+<h4>Форма для добавления в расписание</h4>
+<form action="{% url 'create_schedule' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-end text-md-start"><input type="submit" value="Добавить" class="btn btn-success"></div>
+</form>
+
+<script>
+    
+</script>
+{% endblock content %}

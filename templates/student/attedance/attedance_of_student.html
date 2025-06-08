@@ -1,0 +1,17 @@
+{% extends 'student/base_for_students.html' %}
+{% load static %}
+{% block content %}
+    <div class="mb-4">
+        <form action="{% url 'attedance_of_student_with_date' %}" method="POST">
+            {% csrf_token %}
+            <input type="date" name="date", value="" placeholder="Дата" class="mb-2 form-control" required id="date"> 
+            <input type="submit" value="Показать" class="btn_1" style="width:90px">
+        </form>
+    </div>
+    <div>
+        {% for subject in subjects %}
+            <p><a href="{% url 'attedance_of_student_with_subject' subject_id=subject.id %}">{{ subject.title }}</a></p>
+        {% endfor %}
+    </div>
+    <script src="{% static 'js/value_date_input.js' %}"></script>
+{% endblock content %}

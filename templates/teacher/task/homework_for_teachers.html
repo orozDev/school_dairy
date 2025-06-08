@@ -1,0 +1,69 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+{% load static %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="mb-4">
+        <form action="{% url 'homework_for_teachers' %}" method="POST">
+            <h5>Фильтрация</h5>
+            {% csrf_token %}
+            <input type="date" name="date" class="mb-3 form-control" id="date">
+            <select name="subject" id="" class="mb-3 form-select">
+                <option value="" disabled selected>Выберите предмет</option>
+                {% for subject in teacher.subject.all %}
+                <option value="{{ subject.id }}">{{ subject.title }}</option>
+                {% endfor %}
+            </select>
+            <select name="group" id="" class="mb-3 form-select" required>
+                <option value="" disabled selected>Выберите класс</option>
+                {% for group in teacher.group.all %}
+                <option value="{{ group.id }}">{{ group.title }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Показать" class="btn btn-primary">
+        </form>
+    </div>
+
+    <div class="row">
+        {% for task in tasks %}
+        <div class="col-lg-4 col-md-6 col-12 p-2">
+          <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Домашняя задания</h5>
+                      <div>{{ task.subject }} - {{ task.types }}</div>
+                      <div class="card-text">{{ task.group }} - {{ task.teacher }}</div>
+                      <div class="card-text">{{ task.about }}</div>
+                      {% if task.link != "" %}
+                        <p><b>Ссылка:</b> <a href="{{ task.link }}">{{ task.link }}</a></p>
+                      {% endif %}
+                      <div class="mb-2 text-end"><small>{{ task.date }}</small></div> 
+                      <div class="text-end"><a href="{% url 'update_homework'  task_id=task.id %}" class="btn btn-warning">Изменить</a> <a href="{% url 'delete_homework' task_id=task.id %}" class="btn btn-danger">Удалить</a></div>
+                  </div>
+          </div>
+      </div> 
+      {% empty %}
+      <p class="text-danger">Нет записей!!</p>
+      {% endfor %}
+    </div>
+      <div class="pagination">
+        {% if tasks.has_previous %}
+            <div><a href="?page={{ tasks.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in tasks.paginator.page_range %}
+            {% if tasks.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if tasks.has_next %}
+            <div><a href="?page={{ tasks.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+
+    <div class="panel"><a href="{% url 'create_homework' %}" class="update_or_create_button">Добавить <i class="fa fa-plus"></i></a></div>
+    <script src="{% static 'js/value_date_input.js' %}"></script>
+{% endblock content %}

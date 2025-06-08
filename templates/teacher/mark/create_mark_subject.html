@@ -1,0 +1,8 @@
+{% extends "teacher/base_for_teachers.html" %}
+{% block content %}
+    <h4>Выберите предмет: </h4>
+    {% for subject in teacher.subjects.all %}
+      <p><a href="{% url 'create_mark' subject_id=subject.id %}" class="btn btn-outline-primary d-block">{{ subject.title }}</a></p>
+    {% endfor %}
+    
+{% endblock content %}

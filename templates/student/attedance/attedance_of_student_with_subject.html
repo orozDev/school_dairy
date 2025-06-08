@@ -1,0 +1,43 @@
+{% extends 'student/base_for_students.html' %}
+{% block content %}
+    <h3 class="text-center">{{ attedances.0.subject }}</h3>
+    <div class="table-overflow">
+        <table class="table table-bordered border-blue">
+        <tr>
+            <td class="text-center bg-blue text-white"><b>Дата</b></td>
+            <td class="text-center bg-blue text-white"><b>Отметка</b></td>
+        </tr>
+        {% for attedance in attedances %}
+            <tr>
+                <td>{{ attedance.date }}</td>
+                <td>
+                    {% if attedance.attedance_date is True  %}
+                        <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+                    {% elif attedance.attedance_date is False  %}
+                        <i class="fa fa-times-circle-o text-danger" aria-hidden="true"></i>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">Нет записей!</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <div class="pagination">
+        {% if attedances.has_previous %}
+            <div><a href="?page={{ attedances.previous_page_number }}">&laquo;</a></div>
+        {% endif %}
+        {% for i in attedances.paginator.page_range %}
+            {% if attedances.number == i %}
+                <div><span class="active">{{ i }}</span></div>
+            {% else %}
+                <div><a href="?page={{ i }}">{{ i }}</a></div>
+            {% endif %}
+        {% endfor %}
+        {% if attedances.has_next %}
+            <div><a href="?page={{ attedances.next_page_number }}">&raquo;</a></div>
+        {% endif %}
+    </div>
+{% endblock %}
