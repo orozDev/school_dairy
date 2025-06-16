@@ -49,7 +49,7 @@ class ScheduleForm(forms.ModelForm):
         self.fields['group'].queryset = teacher.group.all()
         self.fields['subject'].queryset = teacher.subjects.all()
 
-        self.fields['group'].empty_label = 'Выберите класс'
+        self.fields['group'].empty_label = 'Выберите группу'
         self.fields['subject'].empty_label = 'Выберите предмет'
         self.fields['types'].empty_label = 'Выберите тип'
         self.fields['day'].empty_label = 'Выберите день'
@@ -86,7 +86,7 @@ class TestForm(forms.ModelForm):
         self.fields['group'].queryset = self.teacher.group.all()
         self.fields['subject'].queryset = self.teacher.subjects.all()
 
-        self.fields['group'].empty_label = 'Выберите класс'
+        self.fields['group'].empty_label = 'Выберите группу'
         self.fields['subject'].empty_label = 'Выберите предмет'
 
     class Meta:
@@ -111,7 +111,7 @@ class TaskForm(forms.ModelForm):
         self.fields['group'].queryset = self.teacher.group.all()
         self.fields['subject'].queryset = self.teacher.subjects.all()
 
-        self.fields['group'].empty_label = 'Выберите класс'
+        self.fields['group'].empty_label = 'Выберите группу'
         self.fields['subject'].empty_label = 'Выберите предмет'
         self.fields['types'].empty_label = 'Выберите тип'
 

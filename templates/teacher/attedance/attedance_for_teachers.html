@@ -1,6 +1,6 @@
 {% extends "teacher/base_for_teachers.html" %}
 {% block content %}
-  <h4>Ваши классы:</h4>
+  <h4>Ваши группы:</h4>
   {% for group in teacher.group.all %}
       <p><a  class="btn btn-outline-primary d-block" href="{% url 'show_attedance_group_for_teachers' group_id=group.id %}">{{ group.title }}</a></p>
 {% endfor %}

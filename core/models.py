@@ -25,7 +25,7 @@ def is_teacher(user):
         user = User.objects.get(id=user)
 
     if user.role != User.TEACHER:
-        raise ValidationError(f'Пользователь должен быть учителем.')
+        raise ValidationError(f'Пользователь должен быть преподователем.')
 
     return user
 
@@ -35,7 +35,7 @@ def is_student(user):
         user = User.objects.get(id=user)
 
     if user.role != User.STUDENT:
-        raise ValidationError(f'Пользователь должен быть учеником.')
+        raise ValidationError(f'Пользователь должен быть студентом.')
 
     return user
 
@@ -108,10 +108,10 @@ class Subject(models.Model):
 
 class Group(models.Model):
     class Meta:
-        verbose_name = 'Класс'
-        verbose_name_plural = 'Классы'
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
-    title = models.CharField(max_length=100, verbose_name='Название класса')
+    title = models.CharField(max_length=100, verbose_name='Название группы')
     subjects = models.ManyToManyField('Subject', 'Предмет')
 
     def __str__(self):
@@ -123,9 +123,9 @@ class Student(models.Model):
         verbose_name = 'Студент'
         verbose_name_plural = 'Студенты'
 
-    user = models.OneToOneField('core.User', verbose_name='Ученик(-ца)', on_delete=models.CASCADE,
+    user = models.OneToOneField('core.User', verbose_name='Cтудент', on_delete=models.CASCADE,
                                 related_name='student', validators=[is_student])
-    group = models.ForeignKey('Group', verbose_name='Класс ученика(-цы)', on_delete=models.PROTECT, null=True)
+    group = models.ForeignKey('Group', verbose_name='Группу студента', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return f'{self.user.name}'
@@ -136,9 +136,9 @@ class Teacher(models.Model):
         verbose_name = 'Преподователь'
         verbose_name_plural = 'Преподователи'
 
-    user = models.OneToOneField('core.User', verbose_name='Учитель(-ница)', on_delete=models.CASCADE,
+    user = models.OneToOneField('core.User', verbose_name='Преподователь', on_delete=models.CASCADE,
                                 related_name='teacher', validators=[is_teacher])
-    group = models.ManyToManyField('Group', verbose_name='Классы которые обучает')
+    group = models.ManyToManyField('Group', verbose_name='Группу которые обучает')
     subjects = models.ManyToManyField('Subject', verbose_name='Предметы')
 
     def __str__(self):
@@ -173,7 +173,7 @@ class Schedule(models.Model):
         verbose_name_plural = 'Расписание'
 
     subject = models.ForeignKey('Subject', on_delete=models.PROTECT, null=True, verbose_name='Предмет')
-    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='Класс')
+    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='группа')
     hour = models.IntegerField(verbose_name='Время')
     types = models.ForeignKey('TypesOfSubject', on_delete=models.PROTECT, null=True, verbose_name='Тип предмета')
     day = models.ForeignKey('DayOfWeek', on_delete=models.PROTECT, null=True, verbose_name='День (дни-недели)')
@@ -188,7 +188,7 @@ class Mark(models.Model):
         verbose_name = 'Оценка'
         verbose_name_plural = 'Оценки'
 
-    student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True, verbose_name='Ученик(-ца)')
+    student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True, verbose_name='Студент')
     group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='Предмет')
     teacher = models.ForeignKey('Teacher', on_delete=models.PROTECT, null=True, verbose_name='Преподаватель')
     subject = models.ForeignKey('Subject', on_delete=models.PROTECT, null=True, verbose_name='Предмет')
@@ -204,10 +204,10 @@ class Attedance(models.Model):
         verbose_name = 'Посещаемость'
         verbose_name_plural = 'Посещаемость'
 
-    student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True, verbose_name='Ученик(-ца)')
+    student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True, verbose_name='Студент')
     subject = models.ForeignKey('Subject', on_delete=models.PROTECT, null=True, verbose_name='Предмет')
     teacher = models.ForeignKey('Teacher', on_delete=models.PROTECT, null=True, verbose_name='Преподаватель')
-    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='Класс')
+    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='группа')
     date = models.DateField(verbose_name='Дата', default=timezone.datetime.now)
     attedance_date = models.BooleanField(default=False, null=True, verbose_name='Отметка')
 
@@ -217,11 +217,11 @@ class Attedance(models.Model):
 
 class Task(models.Model):
     class Meta:
-        verbose_name = 'Домашнее задание'
-        verbose_name_plural = 'Домашние задания'
+        verbose_name = 'задание'
+        verbose_name_plural = 'задании'
 
     teacher = models.ForeignKey('Teacher', on_delete=models.PROTECT, null=True, verbose_name='Преподаватль')
-    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='Класс')
+    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='группа')
     about = models.TextField(verbose_name='Задание')
     subject = models.ForeignKey('Subject', on_delete=models.PROTECT, null=True, verbose_name='Предмет')
     types = models.ForeignKey('TypesOfSubject', on_delete=models.PROTECT, null=True, verbose_name='Тип предмета')
@@ -238,7 +238,7 @@ class Test(models.Model):
         verbose_name_plural = 'Тесты'
 
     teacher = models.ForeignKey('Teacher', on_delete=models.PROTECT, null=True, verbose_name='Преподаватель')
-    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='Класс')
+    group = models.ForeignKey('Group', on_delete=models.PROTECT, null=True, verbose_name='группа')
     subject = models.ForeignKey('Subject', on_delete=models.PROTECT, null=True, verbose_name='Предмет')
     about = models.TextField(verbose_name='Текс', null=True, blank=True)
     date = models.DateTimeField(verbose_name='Дата и время выдачи теста', default=timezone.now)

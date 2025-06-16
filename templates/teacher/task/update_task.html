@@ -1,6 +1,6 @@
 {% extends "teacher/base_for_teachers.html" %}
 {% block content %}
-    <h4 class="mb-4">Форма для редактирования домашнего задания</h4>
+    <h4 class="mb-4">Форма для редактирования задание</h4>
     <div>
         <form action="{% url 'update_homework' task_id=task.id %}" method="POST" novalidate>
             {% csrf_token %}

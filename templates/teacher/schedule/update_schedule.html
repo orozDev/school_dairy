@@ -23,7 +23,7 @@
     </p>
     <p>
         <select name="group" id="" required class="form-select">
-            <option value="">Выберите класс</option>
+            <option value="">Выберите группу</option>
             {% for group in teacher.group.all %}
                 {% if schedule.group.id == group.id %}
                 <option value="{{ group.id }}" selected>{{ group.title }}</option>

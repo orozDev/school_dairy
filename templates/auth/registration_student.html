@@ -16,7 +16,7 @@
       <p>{{ form.password2 }}</p>
       <p>
           <select name="group" id="" class="form-select" required>
-            <option value="" selected disabled>Выберите класс</option>
+            <option value="" selected disabled>Выберите группу</option>
             {% for group in groups %}
               <option value="{{ group.id }}">{{ group.title }}</option>
             {% endfor %}

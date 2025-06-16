@@ -18,7 +18,7 @@
                 {% endfor %}
             </select>
             <select name="group" id="" class="mb-3 form-select" required>
-                <option value="" disabled selected>Выберите класс</option>
+                <option value="" disabled selected>Выберите группу</option>
                 {% for group in teacher.group.all %}
                 <option value="{{ group.id }}">{{ group.title }}</option>
                 {% endfor %}
@@ -32,7 +32,7 @@
         <div class="col-lg-4 col-md-6 col-12 p-2">
           <div class="card">
                   <div class="card-body">
-                      <h5 class="card-title">Домашняя задания</h5>
+                      <h5 class="card-title">Задание</h5>
                       <div>{{ task.subject }} - {{ task.types }}</div>
                       <div class="card-text">{{ task.group }} - {{ task.teacher }}</div>
                       <div class="card-text">{{ task.about }}</div>

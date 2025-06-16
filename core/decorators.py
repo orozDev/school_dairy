@@ -9,7 +9,7 @@ def is_teacher(func):
         if request.user.is_authenticated and request.user.role == User.TEACHER:
             return func(request, *args, **kwargs)
 
-        messages.warning(request, 'Пользователь должен быть учителем.')
+        messages.warning(request, 'Пользователь должен быть преподователем.')
         return redirect('/')
 
     return inner

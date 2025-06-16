@@ -25,7 +25,7 @@
                 {% endfor %}
             </select>
             <select name="group" id="" class="mb-3 form-select" required>
-                <option value="" disabled selected>Выберите класс</option>
+                <option value="" disabled selected>Выберите группу</option>
                 {% for group in teacher.group.all %}
                 <option value="{{ group.id }}">{{ group.title }}</option>
                 {% endfor %}
@@ -39,7 +39,7 @@
         <tr>
             <td class="text-center bg-blue text-white"><b>Дата</b></td>
             <td class="text-center bg-blue text-white"><b>ФИО</b></td>
-            <td class="text-center bg-blue text-white"><b>Класс</b></td>
+            <td class="text-center bg-blue text-white"><b>Группа</b></td>
             <td class="text-center bg-blue text-white"><b>Предмет</b></td>
             <td class="text-center bg-blue text-white"><b>Оценка</b></td>
         </tr>
