@@ -9,20 +9,7 @@
   {% endif %}
   <form action="{% url 'registration_student' %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      <p>{{ form.name }}</p>
-      <p>{{ form.username }}</p>
-      <p>{{ form.portret }}</p>
-      <p>{{ form.password1 }}</p>
-      <p>{{ form.password2 }}</p>
-      <p>
-          <select name="group" id="" class="form-select" required>
-            <option value="" selected disabled>Выберите группу</option>
-            {% for group in groups %}
-              <option value="{{ group.id }}">{{ group.title }}</option>
-            {% endfor %}
-          </select>
-      </p>
-      <p><input type="number" placeholder="Секретный ключ для подтверждения" class="form-control" name="key" required></p>
+      {{ form.as_p }}
       <p><input type="submit" class="btn btn-success" value="Зарегистрироваться"></p>
   </form>
 

@@ -9,12 +9,8 @@
   {% endif %}
   <form action="{% url 'registration_teacher' %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      <p>{{ form.name }}</p>
-      <p>{{ form.username }}</p>
-      <p>{{ form.portret }}</p>
-      <p>{{ form.password1 }}</p>
-      <p>{{ form.password2 }}</p>
-        
+      {{ form.as_p }}
+
       <p><input type="number" placeholder="Секретный ключ для подтверждения" class="form-control" name="key" required></p>
       <div class="text-center text-warning"><i class="fa fa-info-circle"></i> Зажмите кнопку CTRL и выбирайте</div>
       <div class="row mb-4">
@@ -24,7 +20,7 @@
           </div>
           <div class="col-6">
             <p>Предметы которые преподаете</p>
-            <div>{{ form2.subject }}</div>
+            <div>{{ form2.subjects }}</div>
           </div>
       </div>
       <p><input type="submit" class="btn btn-success" value="Зарегистрироваться"></p>
